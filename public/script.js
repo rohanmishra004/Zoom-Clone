@@ -21,6 +21,7 @@ navigator.mediaDevices.getUserMedia({
     addVideoStream(myVideo, stream);
 
     peer.on('call', call => {
+        // once the new user calls us we use this function to make the connection
         call.answer(stream)
         const video = document.createElement('video');
         call.on('stream', userVideoStream => {
