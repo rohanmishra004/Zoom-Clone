@@ -1,11 +1,11 @@
-# plan of action
+# Plan of action
 
-- Initialise NodeJs project - Complete
-- Initialise First View -Complete
-- Create a room Id - Complete
-- Add the ability to our own video - Complete
-- Add the ability to allow others to stream their video - Complete
-- Add styling
-- Add ability to send messages
-- Add mute button
-- Add Stop video button
+- Initialise our project - Complete
+- Initialise our first project - Complete
+- Create a roomId - Complete
+- Add the ability to view our own video - Completed
+- Ability to allow others to stream - Complete
+- Add Styling - Complete
+- Ability to add messages - Complete
+- Add Mute button - Complete
+- Add Stop Video Button - Complete

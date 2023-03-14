@@ -1,50 +1,48 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const { v4: uuid } = require('uuid');
+
+const io = require('socket.io')(server)
+
+//Peer Server
 const { ExpressPeerServer } = require('peer');
-
 const peerServer = ExpressPeerServer(server, {
-    debug: true
-});
+    debug:true
+})
 
-
-//Setting Public folder
-app.use(express.static('public'));
 
 //Setting view engine
 app.set('view engine', 'ejs');
 
+//Static File
+app.use(express.static('public'))
 
-//Peer Server middleware
+//PeerJs server 
 app.use('/peerjs', peerServer);
 
-//Route
-app.get('/', (req, res) => {
-    res.redirect(`/${uuidv4()}`)
-});
+app.get('/', (req, res) => { 
+    res.redirect(`/:${uuid()}`)
+})
 
-
-//Room Id added to url
-app.get('/:room', (req, res) => {
-    console.log(req.params)
+app.get('/:roomId', (req, res) => {
     res.render('room', {roomId:req.params.room})
 })
 
-//creating socket.io connection
-io.on('connection', socket => {
+//socket.io connection
+io.on('connection', (socket) => {
     socket.on('join-room', (roomId,userId) => {
         socket.join(roomId);
-        socket.broadcast.to(roomId).emit('user-connected', userId);
+        socket.to(roomId).emit('user-connected', userId);
+        socket.on('message', message => {
+            io.to(roomId).emit('createMessage', message);    
+        })
+
     });
 });
 
 
-
-server.listen(process.env.PORT || 3030, () => {
-    console.log('Server running!!')
+server.listen(3030, () => {
+    console.log('Server running on port 3030')
 })
-
-
 
